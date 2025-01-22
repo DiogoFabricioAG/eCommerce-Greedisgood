@@ -6,10 +6,13 @@ export default {
       "./src/**/*.{vue,js,ts,jsx,tsx}",
     ],
     theme: {
-        extend: {},
+        extend: {
           fontFamily: {
-            Ysabeau: ['ysabeau-infant-latin-600-normal'],
+            monserrat: ['Montserrat'],
+            notoSans: ['Noto Sans'],
+            ubuntu: ['Ubuntu'],
           },        
-      },
-    plugins: [],
-  }
+        },
+          
+      }
+}

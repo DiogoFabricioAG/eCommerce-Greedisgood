@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@fontsource-variable/ysabeau-infant": "^5.1.1",
+    "@nuxt/fonts": "^0.10.3",
+    "@nuxt/icon": "^1.10.3",
     "@nuxtjs/tailwindcss": "^6.13.1",
     "nuxt": "^3.15.2",
     "vue": "latest",
