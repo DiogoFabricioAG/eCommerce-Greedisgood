@@ -26,9 +26,9 @@ const itemsList : listItems[] = [
   <HeaderComponent />
   <section>
     <div class="flex items-center h-[80vh] w-4/5 mt-3 mb-16 mx-auto gap-10 justify-center">
-      <img class="size-[400px]" src="https://comprarmaquinariahosteleria.com/blog/wp-content/uploads/2023/02/como-montar-tienda-alimentacion.jpg" alt="asdadsasdasd">
+      <img class="size-[475px]" src="https://comprarmaquinariahosteleria.com/blog/wp-content/uploads/2023/02/como-montar-tienda-alimentacion.jpg" alt="asdadsasdasd">
       <div class="flex flex-col gap-4 justify-between">
-        <h1 class="text-4xl text-orange-500 font-monserrat font-bold">Descubre los Productos que Transformarán tu Vida</h1>
+        <h1 class="text-5xl text-orange-500 font-monserrat font-bold">Descubre los Productos que Transformarán tu Vida</h1>
         <p class="text-lg font-notoSans">En GreedisGood, transformamos la ambición en estilo. Ofrecemos una selección exclusiva de productos únicos, diseñados para quienes buscan lo mejor. Disfruta de una experiencia de compra superior con un proceso rápido y seguro, mientras te mantienes a la vanguardia de la innovación y el estilo.</p>
         <strong class="text-orange-500 text-lg">Nuestras Distinciones</strong>
         <ul class="space-y-2">
@@ -49,11 +49,19 @@ const itemsList : listItems[] = [
         </div>
         
       </div>
-      <div class="w-[25%]">
+      <div class="w-[30%]">
         <OfferComponent/>
         <OfferComponent/>
         <OfferComponent/>
       </div>  
+    </div>
+  </section>
+  <section>
+    <div class="text-center mt-5">
+      <h2 class="font-bold text-3xl font-monserrat">Nuestro Catalogo de Productos</h2>
+    </div>
+    <div>
+      
     </div>
   </section>
   
