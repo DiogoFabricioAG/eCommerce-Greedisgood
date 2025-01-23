@@ -5,10 +5,18 @@
       <h1 class="font-bold text-xl">GreedisGood</h1>
     </div>
     <div class="flex gap-10">
-      <a href="#">Productos</a>
-      <a href="#">Carrito</a>
-      <a href="#">Creditos</a>
-      <a href="#">Cuenta</a>
+      <a class="group" href="#">Productos
+        <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-orange-500"></span>
+      </a>
+      <a class="group" href="#">Carrito
+        <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-orange-500"></span>
+      </a>
+      <a class="group" href="#">Creditos
+        <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-orange-500"></span>
+      </a>
+      <a class="group" href="#">Cuenta
+        <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-orange-500"></span>
+      </a>
     </div>
   </nav>
 </template>

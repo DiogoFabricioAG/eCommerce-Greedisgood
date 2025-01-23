@@ -1,7 +1,7 @@
 <template>
-  <li class="flex font-ubuntu gap-4 items-center">
-    <Icon :name="icon_name" size="2rem" style="color: orange" />
-    <p><slot></slot></p>
+  <li class="flex font-ubuntu gap-4  items-center">
+    <Icon :name="icon_name" size="2rem" />
+    <p ><slot></slot></p>
   </li>
 </template>
 
