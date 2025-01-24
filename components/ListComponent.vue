@@ -7,6 +7,9 @@
 
 <script lang="ts" setup>
   defineProps({
-    icon_name: String
+    icon_name: {
+      type: String,
+      required: true
+    }
   })
 </script>

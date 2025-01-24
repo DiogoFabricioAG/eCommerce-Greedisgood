@@ -72,7 +72,7 @@ const handleMouvement = (direction: string) => {
     <HeaderComponent />
   </section>
   <section>
-    <div class="flex items-center h-[80vh] w-4/5 mt-7 mb-12 mx-auto gap-10 justify-center">
+    <div class="flex items-center min-w-[50%] h-[80vh] w-4/5 mt-7 mb-12 mx-auto gap-10 justify-center">
       <img class="size-[475px]" src="https://comprarmaquinariahosteleria.com/blog/wp-content/uploads/2023/02/como-montar-tienda-alimentacion.jpg" alt="asdadsasdasd">
       <div class="flex flex-col gap-4 justify-between">
         <h1 class="text-5xl text-orange-500 font-monserrat font-bold">Descubre los Productos que Transformarán tu Vida</h1>
@@ -87,12 +87,12 @@ const handleMouvement = (direction: string) => {
     </div>
   </section>
   <section>
-    <div class="flex justify-center items-center w-full gap-5">
+    <div class="flex justify-center text-white bg-black py-8 my-5 items-center w-full gap-5">
       <div>
         <h2 class="font-monserrat text-4xl">Ofertas Actuales</h2>
         <div class="font-notoSans space-y-2">
           <p>Nuestras mejores ofertas para nuestros clientes</p>
-          <p class="text-sm underline">Revisar todas las ofertas</p>
+          <p class="text-sm underline hover:text-orange-500 duration-150 cursor-pointer">Revisar todas las ofertas</p>
         </div>
         
       </div>
@@ -104,7 +104,7 @@ const handleMouvement = (direction: string) => {
     </div>
   </section>
   <section>
-    <div class="text-center mt-5">
+    <div class="text-center my-10">
       <h2 class="font-bold text-3xl font-monserrat text-orange-500">Nuestro Catalogo de Productos</h2>
     </div>
     <div class="flex justify-center  items-center gap-5 mx-auto mt-5">
@@ -119,7 +119,7 @@ const handleMouvement = (direction: string) => {
     </div>
   </section>
   <section>
-    <div class="mt-5 border-black border-[3px] mb-5 w-4/5 mx-auto rounded shadow items-center bg-gradient-to-r from-orange-500 to-white text-white flex justify-between p-5">
+    <div class="my-10 w-4/5 mx-auto rounded shadow-lg items-center bg-gradient-to-r from-orange-500 to-white text-white flex justify-between p-5">
       <div>
         <h2 class="text-3xl font-ubuntu">¿Recibir las novedades antes que todos?</h2>
         <p class="font-notoSans">Suscríbete a nuestro newsletter :)</p>

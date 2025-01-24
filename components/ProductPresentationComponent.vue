@@ -1,7 +1,7 @@
 <template>
   <div class="m-5 h-auto group relative cursor-pointer">
     <img class="size-[250px]" :src="image" alt="Some image">
-    <div class="absolute flex outline font-monserrat  outline-transparent hover:outline-black hover:outline-2 justify-center items-center top-[-12.5px] left-[-12.5px] p-5 rounded size-[275px] bg-orange-500 bg-opacity-0 group-hover:bg-opacity-75 transition-all duration-500">
+    <div class="absolute flex  font-monserrat  justify-center items-center top-[-12.5px] left-[-12.5px] p-5 rounded size-[275px] bg-orange-500 bg-opacity-0 group-hover:bg-opacity-75 transition-all duration-500">
       <p class="text-white duration-500 group-hover:opacity-100 opacity-0 text-2xl font-bold absolute">{{ category }}</p>
     </div>
   </div>
