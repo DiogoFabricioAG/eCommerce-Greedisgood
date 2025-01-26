@@ -1,5 +1,5 @@
 <template>
-  <div class="border border-black relative group duration-150 rounded-md hover:border-orange-500 cursor-pointer text-end">
+  <div class="border border-black relative group duration-150 font-monserrat rounded-md hover:border-orange-500 cursor-pointer text-end">
     <img :src="image" alt="asd" class="w-full h-[200px] p-2 object-cover rounded-t-md" />
     <div class="flex justify-between p-2 font-ubuntu items-center">
       <div class="group-hover:text-orange-500 duration-150]">
