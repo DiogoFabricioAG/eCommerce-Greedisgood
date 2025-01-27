@@ -1,17 +1,16 @@
 <script lang="ts" setup>
-const calification = ref(0)
-const page = ref(1)
+const { 
+  clientsData, 
+  page, 
+  nextPage, 
+  prevPage, 
+  fullName, 
+  valorationFilter,
+  transformDate,
+} = useClients();
 
-const nextPage = () => {
-  page.value++
-}
-const prevPage = () => {
-  if (page.value === 1) return
-  page.value--
-}
-
+const { distanceFilter, articlesFilter } = useFilters();
 </script>
-
 
 <template>
   <section>
@@ -25,6 +24,8 @@ const prevPage = () => {
     </div>
   </section>
   <section>
+
+    <!-- ! Main -->
     <div class="flex items-start w-4/5 mx-auto gap-5 mt-5">
       <div class="w-[30%]">
         <!-- ! Filter -->
@@ -37,11 +38,13 @@ const prevPage = () => {
             <select
               name="distance"
               id="cat"
+              v-model.number="articlesFilter"
               class="p-2 bg-gray-200 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800"
             >
-              <option value="menos 5km">Menos de 5km</option>
-              <option value="menos 20km">Menos de 20km</option>
-              <option value="Útiles">Cualquier Distancia</option>
+              <option value="0">Escoge una de estas</option>
+              <option value="5">Menos de 5km</option>
+              <option value="20">Menos de 20km</option>
+              <option value="-1">Cualquier Distancia</option>
             </select>
           </div>
 
@@ -51,12 +54,14 @@ const prevPage = () => {
             <select
               name="products sell"
               id="dis"
+              v-model.number="distanceFilter"
               class="p-2 bg-gray-200 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800"
             >
-              <option value="menos 2">Menos de 2</option>
-              <option value="menos 5">Menos de 5</option>
-              <option value="menos 10">Menos de 10</option>
-              <option value="restantes">Restantes</option>
+              <option value="0">Escoge una de estas</option>
+              <option value="2">Menos de 2</option>
+              <option value="5">Menos de 5</option>
+              <option value="10">Menos de 10</option>
+              <option value="-1">Restantes</option>
             </select>
           </div>
 
@@ -69,14 +74,14 @@ const prevPage = () => {
               :min="0"
               :max="5"
               :step="1"
-              v-model="calification"
+              v-model="valorationFilter"
               class="appearance-none w-full  h-2 bg-gray-300 rounded-full accent-orange-500 focus:outline-none focus:ring-2 focus:ring-gray-800"
             />
             <div class="flex justify-between text-sm select-none text-gray-600 mt-1">
               <span>0</span>
               <span>5</span>
             </div>
-            <p class="text-sm font-medium text-gray-800 mt-2">Precio seleccionado: <span class="font-bold text-black">{{ calification }}</span></p>
+            <p class="text-sm font-medium text-gray-800 mt-2">Precio seleccionado: <span class="font-bold text-black">{{ valorationFilter }}</span></p>
           </div>
         </form>
         <!-- ! Paginator -->
@@ -115,10 +120,16 @@ const prevPage = () => {
           <button class="text-white px-2 py-1 rounded w-[15%] hover:bg-orange-600 duration-150 bg-orange-500">Buscar</button>
         </form>
         <div class="flex flex-col gap-3">
-          <PartnerRouteComponent/>
-          <PartnerRouteComponent/>
-          <PartnerRouteComponent/>
-          <PartnerRouteComponent/>
+          <PartnerRouteComponent v-for="(item, index) in clientsData" 
+          :key="index"
+          :image="item.image"
+          :fullname="fullName(item.firstname,item.lastname)"
+          :description="item.description"
+          :distance="item.distance"
+          :valoration="item.valoration"
+          :join-at="transformDate(item.joinAt)"
+          :n-articles="item.nArticles"
+          />
         </div>
        </div>
     </div>
