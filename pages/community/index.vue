@@ -13,7 +13,8 @@
         :key="index" 
         :title="item.title" 
         :type-image="index+1" 
-        :description="item.description"/>
+        :description="item.description"
+        :route-text="item.routeText"/>
     </div>
   </section>
 </template>
@@ -23,21 +24,24 @@
 type BoxRouteItems = {
   title: string,
   description: string,
-  
+  routeText: string
 } 
 
 const BoxRouteList : BoxRouteItems[] =[
   {
     title: "Compra y Venta",
     description: "Interactúa con la comunidad de la forma tradicional, vende artículos que tengas por tu hogar y dales una segunda vida.",
+    routeText: "/community/partner"
   },
   {
     title: "Subastas",
     description: "Realiza subastas con los artículos que tengas por tu hogar, genera expectativas en las personas.",
+    routeText: "/community/partner"
   },
   {
     title: "Comunicate",
     description: "Ingresa a la Comunidad de Clientes y Compradores :)",
+    routeText: "/community/partner"
   }
 ]
 </script>

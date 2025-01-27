@@ -15,6 +15,7 @@ const prevPage = () => {
 type DispatchType = 'both' | 'delivery' | 'pickup';
 
 type ProductItem = {
+  id: number,
   image: string,
   category: string,
   price: number,
@@ -27,6 +28,7 @@ type ProductItem = {
 
 const productItems : ProductItem[] = [
   {
+    id: 1,
     image: "https://verdepuro.pe/wp-content/uploads/2020/06/lechuga-crespa-entera-bolsa-verde-puro.jpg",
     category: "Comestibles",
     price: 20,
@@ -37,6 +39,7 @@ const productItems : ProductItem[] = [
     stock : 10
   },
   {
+    id: 2,
     image: "https://pesonyb2c.vtexassets.com/arquivos/ids/224927/711719595700_001.jpg",
     category: "Tecnología",
     price: 20,
@@ -47,6 +50,7 @@ const productItems : ProductItem[] = [
     stock : 10
   },
   {
+    id: 3,
     image: "https://oechsle.vteximg.com.br/arquivos/ids/16947092-1000-1000/image-8d6df298838a44bf9318eb57eaa3fd19.jpg",
     category: "Juguetes y Juegos",
     price: 20,
@@ -57,6 +61,7 @@ const productItems : ProductItem[] = [
     stock : 10
   },
   {
+    id: 4,
     image: "https://pesonyb2c.vtexassets.com/arquivos/ids/224927/711719595700_001.jpg",
     category: "Comestibles",
     price: 20,
@@ -67,6 +72,7 @@ const productItems : ProductItem[] = [
     stock : 10
   },
   {
+    id: 5,
     image: "https://pesonyb2c.vtexassets.com/arquivos/ids/224927/711719595700_001.jpg",
     category: "Comestibles",
     price: 20,
@@ -77,6 +83,7 @@ const productItems : ProductItem[] = [
     stock : 15
   },
   {
+    id: 6,
     image: "https://pesonyb2c.vtexassets.com/arquivos/ids/224927/711719595700_001.jpg",
     category: "Comestibles",
     price: 20,
@@ -212,15 +219,16 @@ const productItems : ProductItem[] = [
         <!-- *Productos -->
          <div class="grid grid-cols-3  grid-rows-2 gap-5">
           <ProductComponent v-for="(item, index) in productItems.slice(0,6)" 
-          :key="index" 
-          :image="item.image" 
-          :category="item.category"
-          :dispatch="item.dispatch"
-          :old="item.old"
-          :isDiscount="item.isDiscount"
-          :price="item.price"
-          :productName="item.productName"
-          :stock="item.stock"/>
+            :id = "item.id"
+            :key="index" 
+            :image="item.image" 
+            :category="item.category"
+            :dispatch="item.dispatch"
+            :old="item.old"
+            :isDiscount="item.isDiscount"
+            :price="item.price"
+            :productName="item.productName"
+            :stock="item.stock"/>
          </div>
       </div>
      </div>
