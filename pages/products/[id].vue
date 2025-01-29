@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import HeaderComponent from '~/components/HeaderComponent.vue';
 import RouteComponent from '~/components/RouteComponent.vue';
+import ToastComponent from '~/components/utils/ToastComponent.vue';
 
 const router = useRoute()
 const { id } = router.params
@@ -151,7 +152,7 @@ const ListImages = ref([
   "https://verdepuro.pe/wp-content/uploads/2020/06/mix-lechugas-bb-bolsa-verde-puro.jpg.webp", 
   "https://wongfood.vtexassets.com/arquivos/ids/722140/LECHUGA-SEDA-EN-TAPER-X-UN-ECOLOGIC-1-351676779.jpg?v=638605713824230000", 
   "https://perulabecologic.com.pe/wp-content/uploads/2020/04/Mix-lechugas-gourmet.png"])
-
+  
 const pointerImage = ref(0)
 
 const changeImage = (direction: 'left' | 'right') => {
@@ -175,6 +176,12 @@ const getAverageRate = () => {
     sum += comment.rate
   })
   return sum / listComments.length
+}
+
+const useToast = useMyToastStore()
+
+const showToast = (type: 'check' | 'alert' | 'wrong', message: string) => {
+  useToast.showToast(500,message,type)
 }
 
 </script>
@@ -255,13 +262,14 @@ const getAverageRate = () => {
       <h2 class="text-white text-3xl mb-4">Obtener Cupones</h2>
       <form @submit.prevent="1" action="." class="flex flex-col gap-4 w-full">
         <input type="email" placeholder="Ingresa tu email" class="p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400">
-        <button class="bg-white text-orange-500 p-3 rounded-md font-bold hover:bg-orange-100 transition duration-300">Enviar</button>
+        <button @click="showToast('check','Enviado correctamente')" class="bg-white text-orange-500 p-3 rounded-md font-bold hover:bg-orange-100 transition duration-300">Enviar</button>
       </form>
     </div>
   </section>
   <section>
     <FooterComponent />
   </section>
+  <ToastComponent/>
 </template>
 
 
