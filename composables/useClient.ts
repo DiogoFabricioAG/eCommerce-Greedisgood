@@ -1,14 +1,14 @@
 import { ref, computed, watch } from 'vue';
 import type { clientFindRequired } from '@/types/myClient';
 import { transformDate, fullName } from '@/helpers/dateUtils';
-import { useFilters } from '@/composables/useFilters';
+import { useFilters } from '~/composables/useFilter';
 
 export function useClients() {
   const allClientsData = ref<clientFindRequired[]>([
     {
       id: 1,
-      firstname: 'Nombre del cliente',
-      lastname: 'Apellido del cliente',
+      firstname: 'Juan',
+      lastname: 'Alberto',
       distance: 10,
       valoration: 1,
       nArticles: 5,
@@ -18,8 +18,8 @@ export function useClients() {
     },
     {
       id: 2,
-      firstname: 'Nombre del cliente',
-      lastname: 'Apellido del cliente',
+      firstname: 'Mario',
+      lastname: 'Solis',
       distance: 10,
       valoration: 2,
       nArticles: 5,
@@ -29,8 +29,8 @@ export function useClients() {
     },
     {
       id: 3,
-      firstname: 'Nombre del cliente',
-      lastname : 'Apellido del cliente',
+      firstname: 'Raul',
+      lastname : 'Tomatoso',
       distance: 10,
       valoration: 4,
       nArticles: 5,
@@ -41,7 +41,7 @@ export function useClients() {
     {
       id: 4,
       firstname: 'Pedro',
-      lastname : 'Apellido del cliente',
+      lastname : 'Del Clavo',
       distance: 10,
       valoration: 3,
       nArticles: 5,
@@ -51,8 +51,8 @@ export function useClients() {
     },
     {
       id: 5,
-      firstname: 'Nombre del cliente',
-      lastname : 'Apellido del cliente',
+      firstname: 'Armando',
+      lastname : 'Puertas',
       distance: 10,
       valoration: 5,
       nArticles: 5,
@@ -62,8 +62,8 @@ export function useClients() {
     },
     {
       id: 6,
-      firstname: 'Nombre del cliente',
-      lastname : 'Apellido del cliente',
+      firstname: 'Esteban',
+      lastname : 'Quito',
       distance: 100,
       valoration: 5,
       nArticles: 100,
@@ -72,11 +72,14 @@ export function useClients() {
       image: 'https://unavatar.io/messi'
     },
   ]);
-  const { valorationFilter, articlesFilter, distanceFilter } = useFilters();
+  const { valorationFilter, articlesFilter, distanceFilter, searchFilter } = useFilters();
 
   watch([valorationFilter, articlesFilter, distanceFilter], () => {
     page.value = 1;
   });
+
+  const searchFilterLower = computed(() => searchFilter.value.toLowerCase());
+  
 
   const clientsData = computed(() => {
     return allClientsData.value.filter((client) => {
@@ -99,26 +102,25 @@ export function useClients() {
         return client.nArticles <= articlesVal;
       })();
 
-      return valorationPass && distancePass && articlesPass;
+      const searchPass = (() => {
+        if (!searchFilter.value) return true;
+        const fullNameClient = fullName(client.firstname, client.lastname).toLowerCase();
+        return fullNameClient.includes(searchFilterLower.value);
+      })
+
+      return valorationPass && distancePass && articlesPass && searchPass();
     });
   });
 
   const itemsPerPage = 3;
-  const page = ref(1);
-
+  const {page, nextPage, prevPage} = usePage();
+  
   const paginatedClients = computed(() => {
     const start = (page.value - 1) * itemsPerPage;
     return clientsData.value.slice(start, start + itemsPerPage);
   });
 
-  const nextPage = () => {
-    page.value++;
-  };
-
-  const prevPage = () => {
-    if (page.value === 1) return;
-    page.value--;
-  };
+  
   
   return {
     clientsData: paginatedClients,
@@ -128,5 +130,8 @@ export function useClients() {
     fullName,
     valorationFilter,
     transformDate,
+    articlesFilter, 
+    distanceFilter,
+    searchFilter
   };
 }
