@@ -12,7 +12,7 @@
       <Icon v-if="store.type === 'check'" name="mdi-light:check-circle" size="1.5rem" class="text-green-500"/>
       <Icon v-if="store.type === 'alert'" name="mdi-light:alert-circle" size="1.5rem" class="text-orange-500"/>
       <Icon v-if="store.type === 'wrong'" name="mdi-light:cancel" size="1.5rem" class="text-red-500"/>
-      <p class="text-gray-800 ">{{ store.message }}</p>
+      <p class="text-gray-800">{{ store.message }}</p>
     </div>
   </div>
 </template>
