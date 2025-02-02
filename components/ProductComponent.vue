@@ -1,6 +1,6 @@
 <template>
   <NuxtLink :to="`/products/${id}`" class="border-2 border-black relative group duration-150 font-monserrat rounded-md hover:border-orange-500 cursor-pointer text-end">
-    <img :src="image" alt="asd" class="w-full h-[200px] p-2 object-cover rounded-t-md" />
+    <img :src="image?.at(0)" alt="asd" class="w-full h-[200px] p-2 object-cover rounded-t-md" />
     <div class="flex justify-between p-2 font-ubuntu items-center">
       <div class="group-hover:text-orange-500 duration-150]">
         <h1 class="text-lg font-bold">{{productName}}</h1>
@@ -31,7 +31,7 @@ enum DispatchType {
 
 defineProps({
   id: Number,
-  image: String,
+  image: [String],
   category: String,
   price: Number,
   productName: String,

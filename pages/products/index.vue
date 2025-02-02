@@ -142,7 +142,7 @@ const { productItems,
           <ProductComponent v-for="(item, index) in productItems.slice(0,6)" 
             :id = "item.id"
             :key="index" 
-            :image="item.image" 
+            :image="[item.image]" 
             :category="item.category"
             :dispatch="item.dispatch"
             :old="item.old"
