@@ -1,7 +1,7 @@
 export const usePage = () => {
   const page = ref(1);
 
-  
+
   const nextPage = () => {
     page.value++;
   };

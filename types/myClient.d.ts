@@ -1,5 +1,5 @@
 export type clientFindRequired = {
-    id:number,
+    id: number,
     firstname: string;
     lastname: string;
     valoration: number;
@@ -7,6 +7,6 @@ export type clientFindRequired = {
     nArticles: number;
     distance: number;
     description: string;
-    image: string;  
+    image: string;
 }
 

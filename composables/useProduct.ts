@@ -1,19 +1,19 @@
 import type { ProductItem } from '@/types/myProducts';
-import { fetchProducts }  from '@/services/apiProducts'; 
+import { fetchProducts } from '@/services/apiProducts';
 
-export function useProduct (){
+export function useProduct() {
   const allProductItems = ref<ProductItem[]>([]);
 
   onMounted(async () => {
     allProductItems.value = await fetchProducts();
-  
+
   });
-  const { searchFilter, 
-          isDiscountFilter, 
-          priceFilter, 
-          categoryFilter, 
-          dispatchFilter} = useFilters()
-  
+  const { searchFilter,
+    isDiscountFilter,
+    priceFilter,
+    categoryFilter,
+    dispatchFilter } = useFilters()
+
   const productItems = computed(() => {
     return allProductItems.value.filter((product) => {
       // Filtro de búsqueda
@@ -40,7 +40,7 @@ export function useProduct (){
     })
   })
 
-  const {page,nextPage,prevPage} = usePage() 
+  const { page, nextPage, prevPage } = usePage()
   const itemsPerPage = 6;
   const paginatedItems = computed(() => {
     const start = (page.value - 1) * itemsPerPage;
@@ -48,13 +48,15 @@ export function useProduct (){
   }
   )
 
-  return { productItems : paginatedItems , 
-          page, 
-          nextPage, 
-          prevPage,
-          searchFilter, 
-          isDiscountFilter, 
-          priceFilter, 
-          categoryFilter, 
-          dispatchFilter }
+  return {
+    productItems: paginatedItems,
+    page,
+    nextPage,
+    prevPage,
+    searchFilter,
+    isDiscountFilter,
+    priceFilter,
+    categoryFilter,
+    dispatchFilter
+  }
 }

@@ -1,6 +1,6 @@
 export type DispatchType = 'both' | 'delivery' | 'pickup';
 
-export interface ProductItem{
+export interface ProductItem {
   id: number,
   image: string[],
   category: string,
@@ -9,10 +9,10 @@ export interface ProductItem{
   productName: string,
   isDiscount: boolean
   dispatch: DispatchType,
-  stock : number
-} 
+  stock: number
+}
 
-export interface UnitProductItem extends ProductItem{
+export interface UnitProductItem extends ProductItem {
   description: string,
 }
 

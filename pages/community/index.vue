@@ -11,7 +11,7 @@
       <h1 class="text-4xl font-bold text-center">Comunidad</h1>
       <p class="text-center text-sm">
         Interactúa con la Comunidad de
-        <span class="text-orange-500 font-bold">GreedisGood</span>
+        <strong class="text-orange-500 font-bold">GreedisGood</strong>
       </p>
     </div>
     <div class="grid grid-cols-3 gap-10 w-4/5 mx-auto mt-10">
@@ -45,7 +45,7 @@ const BoxRouteList: BoxRouteItems[] = [
     title: "Subastas",
     description:
       "Realiza subastas con los artículos que tengas por tu hogar, genera expectativas en las personas.",
-    routeText: "/community/partner",
+    routeText: "/community/auction",
   },
   {
     title: "Comunicate",

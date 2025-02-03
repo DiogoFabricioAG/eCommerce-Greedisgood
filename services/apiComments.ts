@@ -53,7 +53,7 @@ export function fetchComments(): Promise<CommentsProducts[]> {
                     date: '2021-10-10',
                     rate: 4
                 }
-              ])
+            ])
         }, 100);
     });
 }   

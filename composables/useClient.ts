@@ -18,13 +18,13 @@ export function useClients() {
   });
 
   const searchFilterLower = computed(() => searchFilter.value.toLowerCase());
-  
+
 
   const clientsData = computed(() => {
     return allClientsData.value.filter((client) => {
       // Filtro valoración
-      const valorationPass = valorationFilter.value !== null && valorationFilter.value !== undefined 
-        ? client.valoration >= valorationFilter.value 
+      const valorationPass = valorationFilter.value !== null && valorationFilter.value !== undefined
+        ? client.valoration >= valorationFilter.value
         : true;
 
       // Filtro distancia
@@ -52,15 +52,15 @@ export function useClients() {
   });
 
   const itemsPerPage = 3;
-  const {page, nextPage, prevPage} = usePage();
-  
+  const { page, nextPage, prevPage } = usePage();
+
   const paginatedClients = computed(() => {
     const start = (page.value - 1) * itemsPerPage;
     return clientsData.value.slice(start, start + itemsPerPage);
   });
 
-  
-  
+
+
   return {
     clientsData: paginatedClients,
     page,
@@ -69,7 +69,7 @@ export function useClients() {
     fullName,
     valorationFilter,
     transformDate,
-    articlesFilter, 
+    articlesFilter,
     distanceFilter,
     searchFilter
   };

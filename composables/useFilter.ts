@@ -7,14 +7,19 @@ export function useFilters() {
   const priceFilter = ref<number>(0);
   const dispatchFilter = ref<string>('');
   const isDiscountFilter = ref<boolean>(false);
+  const hasBidders = ref<boolean>(false);
+  const timeRange = ref<number>(0);
 
-
-  return { valorationFilter, 
-    distanceFilter, 
-    articlesFilter, 
-    searchFilter, 
+  return {
+    valorationFilter,
+    distanceFilter,
+    articlesFilter,
+    searchFilter,
     categoryFilter,
     priceFilter,
     dispatchFilter,
-    isDiscountFilter };
+    isDiscountFilter,
+    hasBidders,
+    timeRange
+  };
 }
