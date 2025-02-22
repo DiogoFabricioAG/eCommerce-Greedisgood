@@ -15,10 +15,14 @@ export const useCart = () => {
 
 
   const handleRemoveItem = (index: number) => {
-    cartItems.value.splice(index, 1)
-    if (numItems.value) {
-      numItems.value.splice(index, 1)
-    }
+    setTimeout(() => {
+      cartItems.value.splice(index, 1)
+      if (numItems.value) {
+        numItems.value.splice(index, 1)
+      }
+    }, 500)
+
+
   }
 
   const handleQuantity = (index: number, type: string) => {

@@ -40,6 +40,7 @@ const {
       <div class="space-y-2 w-[60%]">
         <CartProductComponent
           v-for="(item, index) in cartItems"
+          :id="index"
           :key="index"
           :quantity-prop="numItems?.at(index)"
           @handle-quantity="handleQuantity(index, $event)"
