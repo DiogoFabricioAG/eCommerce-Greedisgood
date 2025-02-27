@@ -54,9 +54,9 @@
 
 <script lang="ts" setup>
 enum DispatchType {
-  BOTH = "both",
-  DELIVERY = "delivery",
-  PICKUP = "pickup",
+  BOTH = "BOTH",
+  DELIVERY = "DELIVERY",
+  PICKUP = "PICKUP",
 }
 
 defineProps({

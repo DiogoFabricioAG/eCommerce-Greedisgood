@@ -8,6 +8,7 @@ import ToastComponent from "~/components/utils/ToastComponent.vue";
 
 const router = useRoute();
 const { id } = router.params;
+const productId = Array.isArray(id) ? id[0] : id;
 
 const {
   UnitProduct,
@@ -15,7 +16,7 @@ const {
   getAverageRate,
   pointerImage,
   recommendedItems,
-} = useUnitProduct();
+} = useUnitProduct(productId);
 
 const useToast = useMyToastStore();
 
@@ -28,7 +29,7 @@ const showToast = (type: "check" | "alert" | "wrong", message: string) => {
   <section>
     <HeaderComponent />
     <RouteComponent
-      :text-routes="['Inicio', 'Productos', UnitProduct.productName]"
+      :text-routes="['Inicio', 'Productos', `${UnitProduct?.productName}`]"
       :link-routes="['/', '/products', `/products/${id}`]"
     />
   </section>
@@ -43,7 +44,7 @@ const showToast = (type: "check" | "alert" | "wrong", message: string) => {
           />
         </button>
         <img
-          :src="UnitProduct.image[pointerImage]"
+          :src="UnitProduct?.image[pointerImage]"
           alt="product"
           class="object-cover size-[400px]"
         />
@@ -58,14 +59,14 @@ const showToast = (type: "check" | "alert" | "wrong", message: string) => {
       <div
         class="w-[60%] font-notoSans space-y-2 flex flex-col justify-center gap-2"
       >
-        <h1 class="text-5xl font-bold">{{ UnitProduct.productName }}</h1>
-        <p class="text-gray-500">{{ UnitProduct.description }}</p>
+        <h1 class="text-5xl font-bold">{{ UnitProduct?.productName }}</h1>
+        <p class="text-gray-500">{{ UnitProduct?.description }}</p>
         <p class="">
           Precio:
-          <span class="text-xl font-bold">S/ {{ UnitProduct.price }}</span>
+          <span class="text-xl font-bold">S/ {{ UnitProduct?.price }}</span>
         </p>
         <p>
-          Reservas: <span class="text-lg">{{ UnitProduct.stock }}</span>
+          Reservas: <span class="text-lg">{{ UnitProduct?.stock }}</span>
         </p>
         <p>
           Rating:
@@ -124,7 +125,7 @@ const showToast = (type: "check" | "alert" | "wrong", message: string) => {
       <div class="flex gap-2 mt-10 w-full">
         <div class="flex gap-5 mx-auto">
           <ProductComponent
-            v-for="(item, index) in recommendedItems"
+            v-for="(item, index) in recommendedItems.slice(0, 3)"
             :id="item.id"
             :key="index"
             :image="item.image"

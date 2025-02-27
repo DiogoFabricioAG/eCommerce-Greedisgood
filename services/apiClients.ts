@@ -1,5 +1,4 @@
 import type { clientFindRequired } from '@/types/myClient';
-
 export function fetchClients(): Promise<clientFindRequired[]> {
   return new Promise((resolve) => {
     setTimeout(() => {

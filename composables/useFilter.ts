@@ -1,4 +1,4 @@
-export function useFilters() {
+export function useFilters(offer: boolean) {
   const valorationFilter = ref<number>(0);
   const distanceFilter = ref<number>(0);
   const articlesFilter = ref<number>(0);
@@ -6,7 +6,7 @@ export function useFilters() {
   const categoryFilter = ref<string>('');
   const priceFilter = ref<number>(0);
   const dispatchFilter = ref<string>('');
-  const isDiscountFilter = ref<boolean>(false);
+  const isDiscountFilter = ref<boolean>(offer);
   const hasBidders = ref<boolean>(false);
   const timeRange = ref<number>(0);
 

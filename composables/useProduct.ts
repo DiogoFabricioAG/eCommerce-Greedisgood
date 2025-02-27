@@ -1,18 +1,17 @@
 import type { ProductItem } from '@/types/myProducts';
 import { fetchProducts } from '@/services/apiProducts';
 
-export function useProduct() {
+export function useProduct(offer: boolean) {
   const allProductItems = ref<ProductItem[]>([]);
 
   onMounted(async () => {
     allProductItems.value = await fetchProducts();
-
   });
   const { searchFilter,
     isDiscountFilter,
     priceFilter,
     categoryFilter,
-    dispatchFilter } = useFilters()
+    dispatchFilter } = useFilters(offer)
 
   const productItems = computed(() => {
     return allProductItems.value.filter((product) => {

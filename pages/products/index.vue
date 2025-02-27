@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 const precio = ref(0);
+const route = useRoute();
+
+console.log(route.query);
 
 const {
   productItems,
@@ -11,7 +14,7 @@ const {
   priceFilter,
   categoryFilter,
   dispatchFilter,
-} = useProduct();
+} = useProduct(route.query["offer"] ? true : false);
 </script>
 
 <template>
@@ -74,9 +77,9 @@ const {
               class="p-2 bg-gray-200 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800"
             >
               <option value="">Escoge una opcion</option>
-              <option value="both">Ambos</option>
-              <option value="delivery">Delivery</option>
-              <option value="pickup">Recojo en Tienda</option>
+              <option value="BOTH">Ambos</option>
+              <option value="DELIVERY">Delivery</option>
+              <option value="PICKUP">Recojo en Tienda</option>
             </select>
           </div>
 
@@ -176,7 +179,7 @@ const {
             v-for="(item, index) in productItems.slice(0, 6)"
             :id="item.id"
             :key="index"
-            :image="[item.image]"
+            :image="item.image"
             :category="item.category"
             :dispatch="item.dispatch"
             :old="item.old"
