@@ -52,12 +52,22 @@
             class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-orange-500"
           ></span>
         </NuxtLink>
-        <NuxtLink to="/session" class="group" href="#"
+        <NuxtLink
+          v-if="!useUserStore.isLogged"
+          to="/session"
+          class="group"
+          href="#"
           >Cuenta
           <span
             class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-orange-500"
           ></span>
         </NuxtLink>
+        <button v-else @click="logout" class="group" href="#">
+          Perfil
+          <span
+            class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-orange-500"
+          ></span>
+        </button>
       </div>
     </nav>
   </div>
@@ -65,12 +75,15 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from "vue";
-import { NuxtLink } from "#components";
-
+const useUserStore = useMyUserStore();
 const topOfPage = ref(true);
 
 const handleScroll = () => {
   topOfPage.value = window.scrollY === 0;
+};
+
+const logout = () => {
+  useUserStore.clearUser();
 };
 
 onMounted(() => {
