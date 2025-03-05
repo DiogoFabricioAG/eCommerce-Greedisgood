@@ -7,7 +7,8 @@ export const useCart = () => {
   const cartItems = ref<ProductCart[]>([]);
   const numItems = ref<number[]>()
   onMounted(async () => {
-    cartItems.value = await fetchCartItems();
+    const useUser = useMyUserStore()
+    cartItems.value = await fetchCartItems(useUser.slug);
     numItems.value = cartItems.value.map(() => 1)
 
   });

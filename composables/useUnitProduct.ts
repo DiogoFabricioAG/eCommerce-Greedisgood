@@ -1,15 +1,16 @@
 import { ref } from "vue";
 import type { ProductItem, CommentsProducts, UnitProductItem } from "~/types/myProducts";
 import { fetchComments } from '@/services/apiComments'
+import { addProductToCart } from '@/services/apiCartItems'
 import { fetchProducts, fetchProductById } from "~/services/apiProducts";
 
-export const useUnitProduct = (id: string) => {
+export const useUnitProduct = (id: number) => {
   const recommendedItems = ref<ProductItem[]>([]);
   const listComments = ref<CommentsProducts[]>([])
   const UnitProduct = ref<UnitProductItem>()
 
   onMounted(async () => {
-    UnitProduct.value = await fetchProductById(Number(id))
+    UnitProduct.value = await fetchProductById(id)
     listComments.value = await fetchComments()
     recommendedItems.value = await fetchProducts()
     recommendedItems.value = recommendedItems.value.slice(0, 5)
@@ -34,6 +35,22 @@ export const useUnitProduct = (id: string) => {
     }
   }
 
+  const useUser = useMyUserStore()
+  const toastStore = useMyToastStore()
+  const postItemProduct = async () => {
+    console.log(id);
+    const response = await addProductToCart({
+      username: useUser.username,
+      idProducto: id,
+    })
+    if (response.status === 501) {
+      toastStore.showToast(500, response.message, "wrong")
+      return
+    }
+    toastStore.showToast(500, response.message, "check")
+    navigateTo("/cart")
+  }
+
   const getAverageRate = () => {
     let sum = 0;
     listComments.value.forEach(comment => {
@@ -48,6 +65,7 @@ export const useUnitProduct = (id: string) => {
     listComments,
     pointerImage,
     changeImage,
+    postItemProduct,
     getAverageRate
   }
 }

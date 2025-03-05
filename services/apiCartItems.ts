@@ -1,26 +1,24 @@
-import type { ProductCart } from '@/types/myProductCart';
+import type { cartItemType, ProductCart } from '@/types/myProductCart';
+import axios from 'axios';
 
-export function fetchCartItems(): Promise<ProductCart[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          imageSource: "https://claroperupoc.vtexassets.com/arquivos/ids/2208571/image-66bf85f4eee2407882999bd0c5c13b91.jpg?v=638648903093800000",
-          productName: 'Auriculares 1',
-          unitPrice: 100,
-        },
-        {
-          imageSource: "https://claroperupoc.vtexassets.com/arquivos/ids/2208571/image-66bf85f4eee2407882999bd0c5c13b91.jpg?v=638648903093800000",
-          productName: 'Auriculares 2',
-          unitPrice: 100,
-        },
-        {
-          imageSource: "https://claroperupoc.vtexassets.com/arquivos/ids/2208571/image-66bf85f4eee2407882999bd0c5c13b91.jpg?v=638648903093800000",
-          productName: 'Auriculares 3',
-          unitPrice: 100,
-        }
-      ])
-    }, 100);
-  });
+export const fetchCartItems = async (slug: string): Promise<ProductCart[]> => {
+  return await axios.get(`http://localhost:8080/api/carrito/get-items/${slug}`)
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch(error => {
+      return error;
+    })
+}
 
+
+export const addProductToCart = async (cartItem: cartItemType) => {
+  return await axios.post("http://localhost:8080/api/carrito/", cartItem)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      return error;
+    })
 }

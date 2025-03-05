@@ -1,6 +1,10 @@
 <script lang="ts" setup>
-const precio = ref(0);
 const route = useRoute();
+
+definePageMeta({
+  title: "Productos",
+  description: "Productos disponibles en la tienda",
+});
 
 console.log(route.query);
 

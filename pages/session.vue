@@ -248,6 +248,10 @@ const loginRequest = ref<LoginType>({
   password: "",
 });
 
+definePageMeta({
+  middleware: "auth",
+});
+
 const passwordRepeat = ref("");
 
 const handleFormSubmit = () => {

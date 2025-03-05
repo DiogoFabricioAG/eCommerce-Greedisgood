@@ -14,9 +14,9 @@ export const createAccount = async (account: AccountType): Promise<ResponseType>
 export const loginAccount = async (account: LoginType): Promise<ResponseLoginType> => {
     return axios.post('http://localhost:8080/api/usuario/login', account)
         .then(response => {
-            const { email, username, isClient } = response.data;
+            const { email, username, isClient, slug } = response.data;
             const myUserStore = useMyUserStore()
-            myUserStore.setUser(username, email, isClient, '');
+            myUserStore.setUser(username, email, isClient, '', slug);
             return response.data;
         })
         .catch(error => {

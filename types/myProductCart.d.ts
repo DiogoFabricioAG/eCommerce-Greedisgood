@@ -3,3 +3,8 @@ export type ProductCart = {
     productName: string,
     unitPrice: number,
 }
+
+export type cartItemType = {
+    username: string,
+    idProducto: number
+}
