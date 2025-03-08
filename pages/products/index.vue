@@ -6,8 +6,6 @@ definePageMeta({
   description: "Productos disponibles en la tienda",
 });
 
-console.log(route.query);
-
 const {
   productItems,
   page,

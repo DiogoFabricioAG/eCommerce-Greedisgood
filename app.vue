@@ -3,10 +3,8 @@ import ToastComponent from "./components/utils/ToastComponent.vue";
 
 const { x, y } = useMouse();
 const userStore = useMyUserStore();
-onMounted(() => {
-  console.log(userStore.username);
-  userStore.refreshUser();
-  console.log(userStore.username);
+onMounted(async () => {
+  await userStore.refreshUser();
 });
 </script>
 

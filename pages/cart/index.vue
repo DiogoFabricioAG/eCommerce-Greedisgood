@@ -9,9 +9,14 @@ const {
   calculateTotal,
   cartItems,
   handleQuantity,
+  updateQuantity,
   handleRemoveItem,
-  numItems,
+  handleCreatePedido,
 } = useCart();
+
+onBeforeUnmount(() => {
+  updateQuantity();
+});
 </script>
 
 <template>
@@ -42,7 +47,7 @@ const {
           v-for="(item, index) in cartItems"
           :id="index"
           :key="index"
-          :quantity-prop="numItems?.at(index)"
+          :quantity-prop="cartItems?.at(index)?.quantity"
           @handle-quantity="handleQuantity(index, $event)"
           @remove-item="handleRemoveItem(index)"
           :image-source="item.imageSource"
@@ -91,10 +96,12 @@ const {
           </div>
           <div class="flex justify-between">
             <p class="text-sm font-semibold text-gray-800">Total</p>
-            <p class="text-sm font-semibold text-gray-800">S/ 310.00</p>
+            <p class="text-sm font-semibold text-gray-800">
+              S/ {{ calculateTotal() + 10 }}
+            </p>
           </div>
           <button
-            @click="toastStore.showToast(500, 'Realizado con exito', 'check')"
+            @click="handleCreatePedido"
             class="bg-orange-500 flex justify-center w-[50%] ml-auto text-white p-2 rounded-lg"
           >
             Confirmar Pago

@@ -1,38 +1,38 @@
 import type { ProductCart } from '@/types/myProductCart';
 import { ref } from 'vue';
-import { fetchCartItems } from '~/services/apiCartItems';
-
+import ToastComponent from '~/components/utils/ToastComponent.vue';
+import { deleteProductCart, fetchCartItems, updateProductCarts } from '~/services/apiCartItems';
+import { createPedido } from '~/services/apiPedidos';
 
 export const useCart = () => {
   const cartItems = ref<ProductCart[]>([]);
+
   const numItems = ref<number[]>()
+  const toastStore = useMyToastStore()
+  const useUser = useMyUserStore()
   onMounted(async () => {
     const useUser = useMyUserStore()
     cartItems.value = await fetchCartItems(useUser.slug);
-    numItems.value = cartItems.value.map(() => 1)
-
   });
 
 
 
-  const handleRemoveItem = (index: number) => {
+  const handleRemoveItem = async (index: number) => {
     setTimeout(() => {
       cartItems.value.splice(index, 1)
-      if (numItems.value) {
-        numItems.value.splice(index, 1)
-      }
     }, 500)
-
+    const response = await deleteProductCart(useUser.slug, cartItems.value[index].productName);
+    toastStore.showToast(500, response.message, 'check')
 
   }
 
   const handleQuantity = (index: number, type: string) => {
-    if (numItems.value) {
+    if (cartItems.value) {
       if (type === 'plus') {
-        numItems.value[index] += 1
+        cartItems.value[index].quantity += 1
       } else {
-        if (numItems.value[index] > 1) {
-          numItems.value[index] -= 1
+        if (cartItems.value[index].quantity > 1) {
+          cartItems.value[index].quantity -= 1
         }
         else {
           handleRemoveItem(index)
@@ -41,13 +41,26 @@ export const useCart = () => {
     }
   }
 
+  const handleCreatePedido = async () => {
+    const response = await createPedido(useUser.slug);
+    if (response.status === 200) {
+      toastStore.showToast(500, response.message, 'check')
+    }
+    else {
+      toastStore.showToast(500, "Ya existe ese carrito", 'wrong')
+    }
+  }
+
   const calculateTotal = () => {
     return cartItems.value.reduce((acc, item, index) => {
-      return acc + (item.unitPrice * (numItems.value?.at(index) ?? 0))
+      return acc + (item.unitPrice * (cartItems.value?.at(index)?.quantity ?? 0))
     }, 0)
   }
 
-
+  const updateQuantity = async () => {
+    const message = await updateProductCarts(cartItems.value, useUser.slug)
+    console.log(message.message);
+  }
 
 
   return {
@@ -55,6 +68,8 @@ export const useCart = () => {
     numItems,
     calculateTotal,
     handleQuantity,
-    handleRemoveItem
+    handleRemoveItem,
+    handleCreatePedido,
+    updateQuantity
   }
 }

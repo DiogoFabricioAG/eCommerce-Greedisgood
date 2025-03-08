@@ -35,6 +35,10 @@ watchEffect(() => {
   }
 });
 
+onBeforeUnmount(() => {
+  document.body.style.overflow = ""; // Restaura el scroll
+});
+
 const comments = ref([
   {
     user: "Juan Pérez",
