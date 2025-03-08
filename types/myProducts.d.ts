@@ -16,11 +16,3 @@ export interface UnitProductItem extends ProductItem {
   description: string,
 }
 
-export type CommentsProducts = {
-  name: string,
-  clientName: string,
-  clientImage: string,
-  comment: string,
-  date: string,
-  rate: number
-}

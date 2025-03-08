@@ -1,59 +1,17 @@
-import type { CommentsProducts } from '../types/myProducts';
+import axios from 'axios';
+import type { CommentsProductsRequest, CommentsProductResponse } from '../types/myComments';
 
-export function fetchComments(): Promise<CommentsProducts[]> {
+export const fetchComments = async (productId: number): Promise<CommentsProductResponse[]> => {
+    const { data } = await axios.get(`http://localhost:8080/api/productos/comments/${productId}`);
+    return data;
+}
 
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve([
-                {
-                    name: 'Juan Perez',
-                    comment: 'Excelente producto, lo recomiendo',
-                    clientImage: 'https://images.unsplash.com/profile-1441298803695-accd94000cac',
-                    clientName: 'Juan Alberto',
-                    date: '2021-10-10',
-                    rate: 4
-                },
-                {
-                    name: 'Juan Perez',
-                    comment: 'Excelente producto, lo recomiendo',
-                    clientImage: 'https://images.unsplash.com/profile-1441298803695-accd94000cac',
-                    clientName: 'Juan Alberto',
-                    date: '2021-10-10',
-                    rate: 4
-                },
-                {
-                    name: 'Juan Perez',
-                    comment: 'Excelente producto, lo recomiendo',
-                    clientImage: 'https://images.unsplash.com/profile-1441298803695-accd94000cac',
-                    clientName: 'Juan Alberto',
-                    date: '2021-10-10',
-                    rate: 4
-                },
-                {
-                    name: 'Juan Perez',
-                    comment: 'Excelente producto, lo recomiendo',
-                    clientImage: 'https://images.unsplash.com/profile-1441298803695-accd94000cac',
-                    clientName: 'Juan Alberto',
-                    date: '2021-10-10',
-                    rate: 4
-                },
-                {
-                    name: 'Juan Perez',
-                    comment: 'Excelente producto, lo recomiendo',
-                    clientImage: 'https://images.unsplash.com/profile-1441298803695-accd94000cac',
-                    clientName: 'Juan Alberto',
-                    date: '2021-10-10',
-                    rate: 4
-                },
-                {
-                    name: 'Juan Perez',
-                    comment: 'Excelente producto, lo recomiendo',
-                    clientImage: 'https://images.unsplash.com/profile-1441298803695-accd94000cac',
-                    clientName: 'Juan Alberto',
-                    date: '2021-10-10',
-                    rate: 4
-                }
-            ])
-        }, 100);
-    });
-}   
+export const postComment = async (comment: CommentsProductsRequest): Promise<void> => {
+    await axios.post('http://localhost:8080/api/productos/comentary', comment)
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}

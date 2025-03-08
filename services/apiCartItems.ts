@@ -1,14 +1,8 @@
 import type { cartItemType, ProductCart } from '@/types/myProductCart';
 import axios from 'axios';
 
-export const fetchCartItems = async (slug: string): Promise<ProductCart[]> => {
+export const fetchCartItems = async (slug: string) => {
   return await axios.get(`http://localhost:8080/api/carrito/get-items/${slug}`)
-    .then((response) => {
-      return response.data;
-    })
-    .catch(error => {
-      return error;
-    })
 }
 
 

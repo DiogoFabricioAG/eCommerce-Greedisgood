@@ -6,13 +6,20 @@ import { createPedido } from '~/services/apiPedidos';
 
 export const useCart = () => {
   const cartItems = ref<ProductCart[]>([]);
-
+  const errorPage = ref<boolean>(false)
   const numItems = ref<number[]>()
   const toastStore = useMyToastStore()
   const useUser = useMyUserStore()
   onMounted(async () => {
     const useUser = useMyUserStore()
-    cartItems.value = await fetchCartItems(useUser.slug);
+
+    await fetchCartItems(useUser.slug).then((response) => {
+      cartItems.value = response.data
+      console.log(cartItems.value);
+    }).catch(() => {
+      errorPage.value = true
+    });
+
   });
 
 
@@ -41,7 +48,19 @@ export const useCart = () => {
     }
   }
 
+  const updateQuantity = async () => {
+    try {
+      const message = await updateProductCarts(cartItems.value, useUser.slug)
+      toastStore.showToast(500, message.message, 'check')
+    }
+    catch (message) {
+      console.log("123");
+      errorPage.value = true
+    }
+  }
+
   const handleCreatePedido = async () => {
+    await updateQuantity(cartItems.value, useUser.slug)
     const response = await createPedido(useUser.slug);
     if (response.status === 200) {
       toastStore.showToast(500, response.message, 'check')
@@ -57,10 +76,7 @@ export const useCart = () => {
     }, 0)
   }
 
-  const updateQuantity = async () => {
-    const message = await updateProductCarts(cartItems.value, useUser.slug)
-    console.log(message.message);
-  }
+
 
 
   return {
@@ -68,6 +84,7 @@ export const useCart = () => {
     numItems,
     calculateTotal,
     handleQuantity,
+    errorPage,
     handleRemoveItem,
     handleCreatePedido,
     updateQuantity

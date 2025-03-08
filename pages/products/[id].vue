@@ -2,6 +2,8 @@
 import HeaderComponent from "~/components/HeaderComponent.vue";
 import RouteComponent from "~/components/RouteComponent.vue";
 import ToastComponent from "~/components/utils/ToastComponent.vue";
+import DialogComponent from "~/components/utils/DialogComponent.vue";
+import type { CommentsProductsRequest } from "~/types/myComments";
 
 // Router -> Redirect
 // Route -> Link Data
@@ -9,7 +11,7 @@ import ToastComponent from "~/components/utils/ToastComponent.vue";
 const router = useRoute();
 const { id } = router.params;
 const productId = Array.isArray(id) ? id[0] : id;
-
+const { closeDialog, dialog, openDialog, options } = useDialog();
 const dialogOption = ref(0);
 
 const {
@@ -17,6 +19,8 @@ const {
   changeImage,
   getAverageRate,
   pointerImage,
+  createComment,
+  listComments,
   postItemProduct,
   recommendedItems,
 } = useUnitProduct(Number(productId));
@@ -27,45 +31,17 @@ const showToast = (type: "check" | "alert" | "wrong", message: string) => {
   useToast.showToast(500, message, type);
 };
 
-watchEffect(() => {
-  if (dialogOption.value !== 0) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = ""; // Restaura el scroll
-  }
-});
-
 onBeforeUnmount(() => {
   document.body.style.overflow = ""; // Restaura el scroll
 });
 
-const comments = ref([
-  {
-    user: "Juan Pérez",
-    rating: 5,
-    text: "¡Excelente producto! Muy recomendado.",
-  },
-  {
-    user: "Ana López",
-    rating: 4,
-    text: "Buena calidad, pero el envío tardó un poco.",
-  },
-]);
-
-const newComment = ref("");
-const newRating = ref(5);
-
-const addComment = () => {
-  if (newComment.value.trim()) {
-    comments.value.push({
-      user: "Usuario Anónimo", // Aquí podrías integrar con el usuario autenticado
-      rating: newRating.value,
-      text: newComment.value.trim(),
-    });
-    newComment.value = "";
-    newRating.value = 5;
-  }
-};
+const newComment = ref<CommentsProductsRequest>({
+  text: "",
+  idProduct: Number(productId),
+  rating: 0,
+  slug: "",
+  subject: "",
+});
 </script>
 
 <template>
@@ -134,7 +110,7 @@ const addComment = () => {
 
         <div class="flex gap-2 mt-10">
           <button
-            @click="dialogOption = 1"
+            @click="openDialog(1)"
             class="text-white flex items-center gap-2 bg-orange-500 px-4 py-3 border border-orange-500 hover:bg-white hover:text-orange-500 duration-150"
           >
             <span>
@@ -147,7 +123,7 @@ const addComment = () => {
             Comprar
           </button>
           <button
-            @click="dialogOption = 2"
+            @click="openDialog(2)"
             class="text-white flex items-center gap-2 bg-black border border-black hover:bg-white hover:text-black px-4 py-2 hover:shadow duration-150"
           >
             <span>
@@ -212,90 +188,83 @@ const addComment = () => {
 
   <!-- Dialogs  -->
   <!--  Compras  -->
-  <section>
+  <DialogComponent @close="closeDialog" :dialog="dialog">
+    <!-- Modal de Comprar -->
     <div
-      @click="dialogOption = 0"
-      :class="[
-        'absolute top-0 h-[100vh] w-full duration-150 bg-black bg-opacity-70 backdrop-blur-sm',
-        dialogOption !== 0
-          ? 'flex items-center translate-y-10 justify-center'
-          : '-translate-y-[120vh]',
-      ]"
+      v-if="options === 1"
+      @click.stop
+      class="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-lg shadow-lg"
     >
-      <!-- Modal de Comprar -->
-      <div
-        v-if="dialogOption === 1"
-        @click.stop
-        class="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-lg shadow-lg"
-      >
-        <h2 class="text-3xl font-bold">Comprar</h2>
-        <p class="text-gray-500">¿Estás seguro de realizar la compra?</p>
-        <div class="flex gap-4 mt-4">
-          <button
-            @click="postItemProduct"
-            class="bg-orange-500 text-white p-3 rounded-md hover:bg-orange-400 transition duration-300"
-          >
-            Comprar
-          </button>
-          <button
-            @click="dialogOption = 0"
-            class="bg-black text-white p-3 rounded-md hover:bg-gray-800 transition duration-300"
-          >
-            Cancelar
-          </button>
-        </div>
-      </div>
-
-      <!-- Modal de Comentarios -->
-      <div
-        v-if="dialogOption === 2"
-        @click.stop
-        class="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-lg shadow-lg w-3/4"
-      >
-        <h2 class="text-3xl font-bold mb-4">Comentarios</h2>
-        <div class="max-h-[30vh] overflow-y-auto space-y-4">
-          <div
-            v-for="(comment, index) in comments"
-            :key="index"
-            class="p-4 border rounded-lg"
-          >
-            <p class="font-bold">{{ comment.user }}</p>
-            <div class="flex">
-              <span v-for="n in 5" :key="n" class="text-yellow-400">
-                {{ n <= comment.rating ? "★" : "☆" }}
-              </span>
-            </div>
-            <p class="text-gray-700">{{ comment.text }}</p>
-          </div>
-        </div>
-
-        <div class="mt-6 border-t pt-4">
-          <h3 class="text-lg font-semibold">Añadir comentario</h3>
-          <div class="flex gap-2 mt-2">
-            <span
-              v-for="n in 5"
-              :key="n"
-              @click="newRating = n"
-              class="cursor-pointer text-2xl"
-              :class="n <= newRating ? 'text-yellow-400' : 'text-gray-300'"
-            >
-              ★
-            </span>
-          </div>
-          <textarea
-            v-model="newComment"
-            class="w-full border rounded-md p-2 mt-2 focus:ring focus:ring-orange-400"
-            placeholder="Escribe tu comentario..."
-          ></textarea>
-          <button
-            @click="addComment"
-            class="bg-orange-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-orange-400 transition duration-300"
-          >
-            Enviar
-          </button>
-        </div>
+      <h2 class="text-3xl font-bold">Comprar</h2>
+      <p class="text-gray-500">¿Estás seguro de realizar la compra?</p>
+      <div class="flex gap-4 mt-4">
+        <button
+          @click="postItemProduct"
+          class="bg-orange-500 text-white p-3 rounded-md hover:bg-orange-400 transition duration-300"
+        >
+          Comprar
+        </button>
+        <button
+          @click="closeDialog"
+          class="bg-black text-white p-3 rounded-md hover:bg-gray-800 transition duration-300"
+        >
+          Cancelar
+        </button>
       </div>
     </div>
-  </section>
+
+    <!-- Modal de Comentarios -->
+    <div
+      v-if="options === 2"
+      @click.stop
+      class="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-lg shadow-lg w-3/4"
+    >
+      <h2 class="text-3xl font-bold mb-4">Comentarios</h2>
+      <div class="max-h-[30vh] overflow-y-auto space-y-4">
+        <div
+          v-for="(comment, index) in listComments"
+          :key="index"
+          class="p-4 border rounded-lg"
+        >
+          <p class="font-bold">{{ comment.user }}</p>
+          <div class="flex">
+            <span v-for="n in 5" :key="n" class="text-yellow-400">
+              {{ n <= comment.rating ? "★" : "☆" }}
+            </span>
+          </div>
+          <p class="text-gray-700">{{ comment.text }}</p>
+        </div>
+      </div>
+
+      <div class="mt-6 border-t pt-4">
+        <h3 class="text-lg font-semibold">Añadir comentario</h3>
+        <div class="flex gap-2 mt-2">
+          <span
+            v-for="n in 5"
+            :key="n"
+            @click="newComment.rating = n"
+            class="cursor-pointer text-2xl"
+            :class="
+              n <= newComment.rating ? 'text-yellow-400' : 'text-gray-300'
+            "
+          >
+            ★
+          </span>
+        </div>
+        <textarea
+          v-model="newComment.text"
+          class="w-full border rounded-md p-2 mt-2 focus:ring focus:ring-orange-400"
+          placeholder="Escribe tu comentario..."
+        ></textarea>
+        <button
+          @click="createComment(newComment)"
+          class="bg-orange-500 text-white px-4 py-2 mt-2 rounded-md hover:bg-orange-400 transition duration-300"
+        >
+          Enviar
+        </button>
+      </div>
+    </div>
+  </DialogComponent>
+  <section></section>
   <ToastComponent />
 </template>
