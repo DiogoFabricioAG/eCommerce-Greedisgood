@@ -1,6 +1,6 @@
 export const useCupon = () => {
   const cuponActivated = ref(false)
-
+  const cuponCodeText = ref('')
   const activateMyCupon = (): void => {
     cuponActivated.value = !cuponActivated.value
     if (!cuponActivated.value) {
@@ -21,10 +21,21 @@ export const useCupon = () => {
       }, 100)
     }
   }
+  const closeCupon = () => {
+    const inputCupon = document.getElementById('input-cupon')
+    setTimeout(() => {
+      inputCupon?.classList.add('hidden')
+    }, 100)
+    inputCupon?.classList.remove('scale-90')
+    inputCupon?.classList.add('scale-0')
+    cuponActivated.value = false
+  }
 
 
   return {
     cuponActivated,
-    activateMyCupon
+    activateMyCupon,
+    closeCupon,
+    cuponCodeText
   }
 }

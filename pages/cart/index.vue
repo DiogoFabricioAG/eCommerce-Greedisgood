@@ -3,7 +3,6 @@
 import HeaderComponent from "~/components/HeaderComponent.vue";
 import DialogComponent from "~/components/utils/DialogComponent.vue";
 import type { ProductCart } from "@/types/myProductCart";
-const { cuponActivated, activateMyCupon } = useCupon();
 const toastStore = useMyToastStore();
 
 const {
@@ -12,6 +11,9 @@ const {
   handleQuantity,
   updateQuantity,
   errorPage,
+  cuponCodeText,
+  activateMyCupon,
+  handleCupon,
   handleRemoveItem,
   handleCreatePedido,
 } = useCart();
@@ -44,7 +46,7 @@ onBeforeUnmount(() => {
       <p class="font-notoSans text-sm">Aquí ves tus productos deseados</p>
     </div>
   </section>
-  <section v-if="!errorPage">
+  <section v-if="!errorPage && cartItems.length > 0">
     <div class="flex gap-2 w-4/5 mx-auto mt-5">
       <div class="space-y-2 w-[60%]">
         <CartProductComponent
@@ -74,12 +76,13 @@ onBeforeUnmount(() => {
             class="transition-all duration-100 hidden scale-0"
           >
             <input
+              v-model="cuponCodeText"
               type="text"
               class="border-2 border-orange-500 mb-2 w-full p-2 rounded-lg"
               placeholder="Ingresa tu cupon"
             />
             <button
-              @click="toastStore.showToast(500, 'Cupon Activado!!!', 'check')"
+              @click="handleCupon"
               class="bg-orange-500 text-white rounded px-2 py-1"
             >
               Activar Cupon
@@ -111,6 +114,7 @@ onBeforeUnmount(() => {
       </div>
     </div>
   </section>
+
   <section v-else>
     <div class="flex justify-center flex-col items-center h-[50vh]">
       <p class="text-2xl font-monserrat">No hay productos en el carrito</p>

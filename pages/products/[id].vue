@@ -4,6 +4,7 @@ import RouteComponent from "~/components/RouteComponent.vue";
 import ToastComponent from "~/components/utils/ToastComponent.vue";
 import DialogComponent from "~/components/utils/DialogComponent.vue";
 import type { CommentsProductsRequest } from "~/types/myComments";
+import { createCuponTest } from "~/services/apiCupon";
 
 // Router -> Redirect
 // Route -> Link Data
@@ -12,7 +13,6 @@ const router = useRoute();
 const { id } = router.params;
 const productId = Array.isArray(id) ? id[0] : id;
 const { closeDialog, dialog, openDialog, options } = useDialog();
-const dialogOption = ref(0);
 
 const {
   UnitProduct,
@@ -25,10 +25,12 @@ const {
   recommendedItems,
 } = useUnitProduct(Number(productId));
 
+const cuponValue = ref("");
 const useToast = useMyToastStore();
 
-const showToast = (type: "check" | "alert" | "wrong", message: string) => {
-  useToast.showToast(500, message, type);
+const createCuponTesting = () => {
+  const response = createCuponTest(cuponValue.value);
+  useToast.showToast(500, response.message, "check");
 };
 
 onBeforeUnmount(() => {
@@ -169,12 +171,13 @@ const newComment = ref<CommentsProductsRequest>({
       <h2 class="text-white text-3xl mb-4">Obtener Cupones</h2>
       <form @submit.prevent="1" action="." class="flex flex-col gap-4 w-full">
         <input
-          type="email"
-          placeholder="Ingresa tu email"
+          v-model="cuponValue"
+          type="text"
+          placeholder="Crea un Cupon"
           class="p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
         />
         <button
-          @click="showToast('check', 'Enviado correctamente')"
+          @click="createCuponTesting"
           class="bg-white text-orange-500 p-3 rounded-md font-bold hover:bg-orange-100 transition duration-300"
         >
           Enviar

@@ -62,12 +62,17 @@
             class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-orange-500"
           ></span>
         </NuxtLink>
-        <button v-else @click="logout" class="group" href="#">
+        <NuxtLink
+          v-else
+          :to="`/profile/${useUserStore.slug}`"
+          class="group"
+          href="#"
+        >
           Perfil
           <span
             class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-orange-500"
           ></span>
-        </button>
+        </NuxtLink>
       </div>
     </nav>
   </div>

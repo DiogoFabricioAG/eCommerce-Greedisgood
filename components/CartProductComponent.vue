@@ -62,6 +62,7 @@ defineProps({
   quantityProp: Number,
 });
 
+
 const emit = defineEmits(["removeItem", "handleQuantity"]);
 const wasRemoved = ref(false);
 const wasUpdated = ref(false);

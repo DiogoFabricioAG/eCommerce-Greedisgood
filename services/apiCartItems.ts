@@ -35,3 +35,4 @@ export const deleteProductCart = async (slug: string, productName: string) => {
       return error;
     })
 }
+

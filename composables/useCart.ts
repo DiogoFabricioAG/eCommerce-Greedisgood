@@ -1,13 +1,16 @@
 import type { ProductCart } from '@/types/myProductCart';
+import type { CuponResponse } from '@/types/myCupon';
 import { ref } from 'vue';
 import ToastComponent from '~/components/utils/ToastComponent.vue';
 import { deleteProductCart, fetchCartItems, updateProductCarts } from '~/services/apiCartItems';
 import { createPedido } from '~/services/apiPedidos';
+import { getCupon } from '~/services/apiCupon';
 
 export const useCart = () => {
   const cartItems = ref<ProductCart[]>([]);
   const errorPage = ref<boolean>(false)
   const numItems = ref<number[]>()
+  const cuponRef = ref<CuponResponse>()
   const toastStore = useMyToastStore()
   const useUser = useMyUserStore()
   onMounted(async () => {
@@ -21,8 +24,20 @@ export const useCart = () => {
     });
 
   });
+  const { activateMyCupon, cuponCodeText, closeCupon } = useCupon()
 
+  const handleCupon = async () => {
 
+    const response = await getCupon(cuponCodeText.value)
+    if (response.status === 500) {
+      toastStore.showToast(500, 'Codigo Erroneo', 'wrong')
+    }
+    else {
+      closeCupon()
+      toastStore.showToast(500, 'Codigo Correcto', 'check')
+      cuponRef.value = response
+    }
+  }
 
   const handleRemoveItem = async (index: number) => {
     setTimeout(() => {
@@ -60,13 +75,23 @@ export const useCart = () => {
   }
 
   const handleCreatePedido = async () => {
-    await updateQuantity(cartItems.value, useUser.slug)
-    const response = await createPedido(useUser.slug);
+    await updateQuantity()
+
+    const PedidoRequest = cuponRef.value ? {
+      slug: useUser.slug,
+      idCupon: cuponRef.value.idCupon
+    } : {
+      slug: useUser.slug,
+      idCupon: null
+    }
+    console.log(PedidoRequest);
+    const response = await createPedido(PedidoRequest);
     if (response.status === 200) {
       toastStore.showToast(500, response.message, 'check')
+      navigateTo('/products')
     }
     else {
-      toastStore.showToast(500, "Ya existe ese carrito", 'wrong')
+      toastStore.showToast(500, "Ocurrio un error", 'wrong')
     }
   }
 
@@ -84,7 +109,10 @@ export const useCart = () => {
     numItems,
     calculateTotal,
     handleQuantity,
+    handleCupon,
+    cuponCodeText,
     errorPage,
+    activateMyCupon,
     handleRemoveItem,
     handleCreatePedido,
     updateQuantity
