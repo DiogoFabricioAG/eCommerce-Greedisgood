@@ -24,7 +24,9 @@ export const useCart = () => {
     });
 
   });
+
   const { activateMyCupon, cuponCodeText, closeCupon } = useCupon()
+  const cuponStore = useMyCuponStore()
 
   const handleCupon = async () => {
 
@@ -36,6 +38,7 @@ export const useCart = () => {
       closeCupon()
       toastStore.showToast(500, 'Codigo Correcto', 'check')
       cuponRef.value = response
+      cuponStore.setCupon(response.cuponCode, response.idCupon)
     }
   }
 
@@ -75,11 +78,11 @@ export const useCart = () => {
   }
 
   const handleCreatePedido = async () => {
-    await updateQuantity()
 
-    const PedidoRequest = cuponRef.value ? {
+    await updateQuantity()
+    const PedidoRequest = cuponStore.exist ? {
       slug: useUser.slug,
-      idCupon: cuponRef.value.idCupon
+      idCupon: cuponStore.cuponId
     } : {
       slug: useUser.slug,
       idCupon: null
@@ -88,6 +91,7 @@ export const useCart = () => {
     const response = await createPedido(PedidoRequest);
     if (response.status === 200) {
       toastStore.showToast(500, response.message, 'check')
+      cuponStore.clearCupon()
       navigateTo('/products')
     }
     else {
@@ -113,6 +117,7 @@ export const useCart = () => {
     cuponCodeText,
     errorPage,
     activateMyCupon,
+    cuponStore,
     handleRemoveItem,
     handleCreatePedido,
     updateQuantity

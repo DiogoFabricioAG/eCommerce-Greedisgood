@@ -9,7 +9,7 @@
     <div class="flex justify-between w-full items-center">
       <div class="flex flex-col gap-2 justify-between">
         <p class="text-xl font-bold">{{ productName }}</p>
-        <div class="flex duration-150 gap-2">
+        <div v-if="inUse" class="flex duration-150 gap-2">
           <button
             @click="handleRemoveItem"
             class="border border-black flex items-center h-full hover:bg-orange-500 hover:text-white duration-150"
@@ -45,6 +45,9 @@
             </button>
           </div>
         </div>
+        <div v-else>
+          <p class="text-lg font-bold text-red-500">{{ quantityProp }}</p>
+        </div>
       </div>
       <div>
         <p class="text-xs">Precio unitario</p>
@@ -60,8 +63,11 @@ defineProps({
   productName: String,
   unitPrice: Number,
   quantityProp: Number,
+  inUse: {
+    type: Boolean,
+    default: true,
+  },
 });
-
 
 const emit = defineEmits(["removeItem", "handleQuantity"]);
 const wasRemoved = ref(false);

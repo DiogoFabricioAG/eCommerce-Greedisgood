@@ -12,6 +12,7 @@ const {
   updateQuantity,
   errorPage,
   cuponCodeText,
+  cuponStore,
   activateMyCupon,
   handleCupon,
   handleRemoveItem,
@@ -33,11 +34,12 @@ onBeforeUnmount(() => {
         :text-routes="['Inicio', 'Carrito']"
         :link-routes="['/', '/cart']"
       />
-      <p
+      <NuxtLink
+        to="/cart/history"
         class="hover:text-orange-500 duration-150 cursor-pointer text-xs font-notoSans"
       >
         Revisar Historial de Compras
-      </p>
+      </NuxtLink>
     </div>
   </section>
   <section>
@@ -66,6 +68,7 @@ onBeforeUnmount(() => {
           class="border-2 space-y-4 flex flex-col w-full border-orange-500 p-6 text-center rounded-lg shadow-md bg-gray-100"
         >
           <button
+            v-if="!cuponStore.exist"
             @click="activateMyCupon"
             class="border bg-orange-500 shadow text-center text-white border-black justify-between p-2 rounded-lg"
           >
