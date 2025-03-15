@@ -12,7 +12,7 @@ export const addProductToCart = async (cartItem: cartItemType) => {
       return response.data;
     })
     .catch(error => {
-      return error;
+      return new Error(error.response.data.message);
     })
 }
 

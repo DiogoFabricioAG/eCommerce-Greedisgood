@@ -13,6 +13,7 @@ export const useCart = () => {
   const cuponRef = ref<CuponResponse>()
   const toastStore = useMyToastStore()
   const useUser = useMyUserStore()
+  const changed = ref<boolean>(false)
   onMounted(async () => {
     const useUser = useMyUserStore()
 
@@ -32,7 +33,8 @@ export const useCart = () => {
 
     const response = await getCupon(cuponCodeText.value)
     if (response.status === 500) {
-      toastStore.showToast(500, 'Codigo Erroneo', 'wrong')
+      console.log(response);
+      toastStore.showToast(500, response.message, 'wrong')
     }
     else {
       closeCupon()
@@ -52,6 +54,7 @@ export const useCart = () => {
   }
 
   const handleQuantity = (index: number, type: string) => {
+    changed.value = true
     if (cartItems.value) {
       if (type === 'plus') {
         cartItems.value[index].quantity += 1
@@ -118,6 +121,7 @@ export const useCart = () => {
     errorPage,
     activateMyCupon,
     cuponStore,
+    changed,
     handleRemoveItem,
     handleCreatePedido,
     updateQuantity

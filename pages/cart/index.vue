@@ -2,9 +2,6 @@
 <script lang="ts" setup>
 import HeaderComponent from "~/components/HeaderComponent.vue";
 import DialogComponent from "~/components/utils/DialogComponent.vue";
-import type { ProductCart } from "@/types/myProductCart";
-const toastStore = useMyToastStore();
-
 const {
   calculateTotal,
   cartItems,
@@ -16,13 +13,16 @@ const {
   activateMyCupon,
   handleCupon,
   handleRemoveItem,
+  changed,
   handleCreatePedido,
 } = useCart();
 
-const { closeDialog, dialog, openDialog, options } = useDialog();
+const { closeDialog, dialog, openDialog } = useDialog();
 
 onBeforeUnmount(() => {
-  updateQuantity();
+  if (changed.value) {
+    updateQuantity();
+  }
 });
 </script>
 
@@ -73,6 +73,15 @@ onBeforeUnmount(() => {
             class="border bg-orange-500 shadow text-center text-white border-black justify-between p-2 rounded-lg"
           >
             <p>¿Tienes un cupon?</p>
+          </button>
+          <button
+            class="bg-gray-900 py-2 px-1"
+            @click="cuponStore.clearCupon"
+            v-else
+          >
+            <span class="text-sm font-semibold text-white">
+              Cupon: {{ cuponStore.cuponCode }}
+            </span>
           </button>
           <div
             id="input-cupon"

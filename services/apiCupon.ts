@@ -7,9 +7,10 @@ export const getCupon = async (cuponCode: string): Promise<CuponResponse> => {
         .then(response => {
             return response.data
         })
-        .catch(() => {
+        .catch((error) => {
             return {
-                status: 500
+                status: 500,
+                message: error.response.data.message
             }
         })
 }

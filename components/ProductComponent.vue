@@ -10,7 +10,7 @@
     />
     <div class="flex justify-between p-2 font-ubuntu items-center">
       <div class="group-hover:text-orange-500 duration-150]">
-        <h1 class="text-lg font-bold">{{ productName }}</h1>
+        <h1 class="text-start font-bold">{{ productName }}</h1>
         <p class="text-sm text-start">{{ category }}</p>
       </div>
       <div>
@@ -26,9 +26,13 @@
       </div>
     </div>
     <p
+      v-if="stock > 0"
       class="text-sm text-gray-600 p-2 duration-150 group-hover:text-orange-500"
     >
       {{ stock }} Restantes
+    </p>
+    <p v-else>
+      <span class="text-sm text-gray-600 mx-2">Agotado</span>
     </p>
     <div
       class="duration-150 group-hover:text-orange-500 bg-slate-100 size-8 absolute bottom-[-15px] left-[-15px] flex items-center justify-center rounded-full"
@@ -66,7 +70,10 @@ defineProps({
   price: Number,
   productName: String,
   old: Number,
-  stock: Number,
+  stock: {
+    type: Number,
+    default: 0,
+  },
   isDiscount: {
     type: Boolean,
     default: true,
